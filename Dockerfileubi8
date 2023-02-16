@@ -1,0 +1,16 @@
+# Not using the alpine image because it lacks a package gRPC needed to establish pub/sub listeners.
+#FROM openjdk:11
+#LABEL maintainer="sig-platform@spinnaker.io"
+#RUN adduser --system --uid 10111 --group spinnaker
+
+FROM quay.io/opsmxpublic/ubi8-jdk-11:v1
+LABEL maintainer="info@opsmx.io"
+
+RUN  microdnf install --setopt=tsflags=nodocs openssh-clients  && \
+  groupadd -g 10111 spinnaker && \
+  useradd -g spinnaker -u 10111 spinnaker && \
+  mkdir -p /opt/echo/plugins && chown -R spinnaker:spinnaker /opt/echo/plugins
+
+COPY echo-web/build/install/echo /opt/echo
+USER spinnaker
+CMD ["/opt/echo/bin/echo"]
