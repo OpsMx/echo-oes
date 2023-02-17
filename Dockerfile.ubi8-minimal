@@ -1,0 +1,24 @@
+FROM alpine:3 AS build
+RUN apk add --update \
+    openjdk11 \
+    && rm -rf /var/cache/apk
+LABEL maintainer="sig-platform@spinnaker.io"
+ENV GRADLE_USER_HOME /workspace/.gradle
+ENV GRADLE_OPTS -Xmx4g
+WORKDIR /build
+COPY . /build
+RUN ./gradlew --no-daemon echo-web:installDist -x test
+
+ARG TARGETARCH
+
+FROM quay.io/opsmxpublic/image-base-java-ubi8-minimal:latest AS package
+LABEL maintainer="info@opsmx.io"
+
+RUN  microdnf install --setopt=tsflags=nodocs openssh-clients \
+ && groupadd -g 10111 spinnaker \
+ && useradd -g spinnaker -u 10111 spinnaker  \
+ && mkdir -p /opt/echo/plugins && chown -R spinnaker:spinnaker /opt/echo/plugins
+
+COPY --from=build /build/echo-web/build/install/echo /opt/echo
+USER spinnaker
+CMD ["/opt/echo/bin/echo"]
