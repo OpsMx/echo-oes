@@ -21,16 +21,14 @@ import com.netflix.spinnaker.echo.notification.NotificationService
 import com.netflix.spinnaker.echo.api.Notification
 import com.netflix.spinnaker.echo.notification.NotificationTemplateEngine
 import com.netflix.spinnaker.kork.web.exceptions.InvalidRequestException
-import jakarta.mail.internet.AddressException
+import jakarta.mail.internet.MimeMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
-
-
-
+import jakarta.mail.internet.AddressException
 /**
  * Mail Sending Service
  */
@@ -67,7 +65,7 @@ class EmailNotificationService implements NotificationService {
   }
 
   void send(String[] to, String[] cc, String subject, String text) {
-  //  MimeMessage message = javaMailSender.createMimeMessage()
+    MimeMessage message = javaMailSender.createMimeMessage()
     MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8")
 
     def splitAddresses = { String addresses ->

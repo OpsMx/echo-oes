@@ -20,13 +20,14 @@ import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
+import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
 
 // this was copied and modified from
 // https://github.com/jhy/jsoup/blob/jsoup-1.8.2/src/main/java/org/jsoup/examples/HtmlToPlainText.java
 public class HtmlToPlainText {
   public String getPlainText(Element element) {
-    /*    FormattingVisitor formatter = new FormattingVisitor();
+   /* FormattingVisitor formatter = new FormattingVisitor();
     NodeTraversor traversor = new NodeTraversor(formatter);
     traversor.traverse(element);
     return formatter.toString();*/
