@@ -28,6 +28,7 @@ dependencies {
   testImplementation "com.squareup.retrofit:converter-jackson:1.9.0"
   testImplementation "com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0"
   implementation "commons-codec:commons-codec"
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
 
   implementation "io.spinnaker.kork:kork-web"
   implementation "com.fasterxml.jackson.core:jackson-databind"

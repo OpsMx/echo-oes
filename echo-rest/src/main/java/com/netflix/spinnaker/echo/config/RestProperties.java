@@ -16,8 +16,10 @@
 
 package com.netflix.spinnaker.echo.config;
 
+import java.util.List;
 import java.util.Map;
-// import javax.validation.Valid;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +31,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Data
 public class RestProperties {
-  //  @Valid List<RestEndpointConfiguration> endpoints;
+  @Valid List<RestEndpointConfiguration> endpoints;
 
   @Data
   public static class RestEndpointConfiguration {
@@ -37,7 +39,7 @@ public class RestProperties {
     String fieldName;
     String template;
     Boolean wrap = false;
-    //    @NotEmpty String url;
+    @NotEmpty String url;
     Boolean insecure = false;
     String username;
     String password;

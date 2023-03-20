@@ -16,19 +16,29 @@
 
 package com.netflix.spinnaker.echo.pubsub.aws;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.netflix.spectator.api.Registry;
 import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
 import com.netflix.spinnaker.echo.config.AmazonPubsubProperties;
+import com.netflix.spinnaker.echo.pubsub.PubsubEventCreator;
 import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
 import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
+import com.netflix.spinnaker.echo.pubsub.model.EventCreator;
 import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
+import com.netflix.spinnaker.kork.aws.ARN;
 import com.netflix.spinnaker.kork.discovery.DiscoveryStatusListener;
 import com.netflix.spinnaker.kork.dynamicconfig.DynamicConfigService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.function.Supplier;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -80,60 +90,60 @@ public class SQSSubscriberProvider {
     Preconditions.checkNotNull(
         properties, "Can't initialize SQSSubscriberProvider with null properties");
 
-    /* ExecutorService executorService =
-            Executors.newFixedThreadPool(properties.getSubscriptions().size());
-    */
+    ExecutorService executorService =
+        Executors.newFixedThreadPool(properties.getSubscriptions().size());
+
     List<PubsubSubscriber> subscribers = new ArrayList<>();
 
-    /*  properties
-    .getSubscriptions()
-    .forEach(
-        (AmazonPubsubProperties.AmazonPubsubSubscription subscription) -> {
-          log.info("Bootstrapping SQS for SNS topic: {}", subscription.getTopicARN());
-          if (subscription.getTemplatePath() != null
-              && !subscription.getTemplatePath().equals("")) {
-            log.info(
-                "Using template: {} for subscription: {}",
-                subscription.getTemplatePath(),
-                subscription.getName());
-          }
+    properties
+        .getSubscriptions()
+        .forEach(
+            (AmazonPubsubProperties.AmazonPubsubSubscription subscription) -> {
+              log.info("Bootstrapping SQS for SNS topic: {}", subscription.getTopicARN());
+              if (subscription.getTemplatePath() != null
+                  && !subscription.getTemplatePath().equals("")) {
+                log.info(
+                    "Using template: {} for subscription: {}",
+                    subscription.getTemplatePath(),
+                    subscription.getName());
+              }
 
-          ARN queueArn = new ARN(subscription.getQueueARN());
+              ARN queueArn = new ARN(subscription.getQueueARN());
 
-          Optional<MessageArtifactTranslator> messageArtifactTranslator = Optional.empty();
-          if (subscription.getMessageFormat() != AmazonPubsubProperties.MessageFormat.NONE) {
-            messageArtifactTranslator =
-                Optional.ofNullable(subscription.readTemplatePath())
-                    .map(messageArtifactTranslatorFactory::createJinja);
-          }
-          EventCreator eventCreator = new PubsubEventCreator(messageArtifactTranslator);
+              Optional<MessageArtifactTranslator> messageArtifactTranslator = Optional.empty();
+              if (subscription.getMessageFormat() != AmazonPubsubProperties.MessageFormat.NONE) {
+                messageArtifactTranslator =
+                    Optional.ofNullable(subscription.readTemplatePath())
+                        .map(messageArtifactTranslatorFactory::createJinja);
+              }
+              EventCreator eventCreator = new PubsubEventCreator(messageArtifactTranslator);
 
-          SQSSubscriber worker =
-              new SQSSubscriber(
-                  objectMapper,
-                  subscription,
-                  pubsubMessageHandlerFactory.create(eventCreator),
-                  AmazonSNSClientBuilder.standard()
-                      .withCredentials(awsCredentialsProvider)
-                      .withClientConfiguration(new ClientConfiguration())
-                      .withRegion(queueArn.getRegion())
-                      .build(),
-                  AmazonSQSClientBuilder.standard()
-                      .withCredentials(awsCredentialsProvider)
-                      .withClientConfiguration(new ClientConfiguration())
-                      .withRegion(queueArn.getRegion())
-                      .build(),
-                  isEnabledSupplier(),
-                  registry);
+              SQSSubscriber worker =
+                  new SQSSubscriber(
+                      objectMapper,
+                      subscription,
+                      pubsubMessageHandlerFactory.create(eventCreator),
+                      AmazonSNSClientBuilder.standard()
+                          .withCredentials(awsCredentialsProvider)
+                          .withClientConfiguration(new ClientConfiguration())
+                          .withRegion(queueArn.getRegion())
+                          .build(),
+                      AmazonSQSClientBuilder.standard()
+                          .withCredentials(awsCredentialsProvider)
+                          .withClientConfiguration(new ClientConfiguration())
+                          .withRegion(queueArn.getRegion())
+                          .build(),
+                      isEnabledSupplier(),
+                      registry);
 
-          try {
-            executorService.submit(worker);
-            subscribers.add(worker);
-            log.debug("Created worker for subscription: {}", subscription.getName());
-          } catch (RejectedExecutionException e) {
-            log.error("Could not start " + worker.getWorkerName(), e);
-          }
-        });*/
+              try {
+                executorService.submit(worker);
+                subscribers.add(worker);
+                log.debug("Created worker for subscription: {}", subscription.getName());
+              } catch (RejectedExecutionException e) {
+                // log.error("Could not start " + worker.getWorkerName(), e);
+              }
+            });
     pubsubSubscribers.putAll(subscribers);
   }
 

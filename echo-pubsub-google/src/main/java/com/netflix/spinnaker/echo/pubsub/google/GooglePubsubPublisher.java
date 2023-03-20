@@ -16,15 +16,35 @@
 
 package com.netflix.spinnaker.echo.pubsub.google;
 
-/*import com.netflix.spinnaker.echo.config.GooglePubsubProperties.Content;
-import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubPublisherConfig;*/
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
+import com.google.api.gax.batching.BatchingSettings;
+import com.google.cloud.pubsub.v1.Publisher;
+import com.google.protobuf.ByteString;
+import com.google.pubsub.v1.ProjectTopicName;
+import com.google.pubsub.v1.PubsubMessage;
+import com.netflix.spinnaker.echo.api.events.Event;
+import com.netflix.spinnaker.echo.api.events.Metadata;
+import com.netflix.spinnaker.echo.config.GooglePubsubCredentialsProvider;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.Content;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubPublisherConfig;
+import com.netflix.spinnaker.echo.model.pubsub.PubsubSystem;
+import com.netflix.spinnaker.echo.pubsub.model.PubsubPublisher;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.threeten.bp.Duration;
 
 @Data
 @Slf4j
-public class GooglePubsubPublisher {
-  /* implements PubsubPublisher {
+public class GooglePubsubPublisher implements PubsubPublisher {
 
   private final PubsubSystem pubsubSystem = PubsubSystem.GOOGLE;
 
@@ -159,5 +179,5 @@ public class GooglePubsubPublisher {
     public void onSuccess(String result) {
       log.debug("Successfully published message with ID {}", result);
     }
-  }*/
+  }
 }

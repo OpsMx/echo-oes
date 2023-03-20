@@ -19,7 +19,6 @@ package com.netflix.spinnaker.echo.pubsub.google;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.spinnaker.echo.api.events.Event;
 import com.netflix.spinnaker.echo.api.events.EventListener;
-// import com.netflix.spinnaker.echo.config.GooglePubsubProperties.Content;
 import com.netflix.spinnaker.echo.pubsub.PubsubPublishers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

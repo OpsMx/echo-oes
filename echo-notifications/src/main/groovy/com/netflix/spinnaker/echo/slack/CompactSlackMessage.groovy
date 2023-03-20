@@ -19,6 +19,7 @@ package com.netflix.spinnaker.echo.slack
 
 
 import groovy.transform.Canonical
+import groovy.json.JsonBuilder
 
 @Canonical
 class CompactSlackMessage {
@@ -32,7 +33,7 @@ class CompactSlackMessage {
    *   [{"fallback":"plain-text summary", "text":"the message to send", "color":"#hexcolor"}]
    * @return a stringified version of the JSON array containing the attachment
    */
- /* String buildMessage() {
+  String buildMessage() {
     new JsonBuilder([
       [
         fallback: body,
@@ -41,5 +42,5 @@ class CompactSlackMessage {
         mrkdwn_in: ["text"]
       ]
     ]).toString()
-  }*/
+  }
 }

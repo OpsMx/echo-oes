@@ -16,8 +16,16 @@
 
 package com.netflix.spinnaker.echo.config;
 
-/*import javax.annotation.PostConstruct;
-import javax.validation.Valid;*/
+import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
+import com.netflix.spinnaker.echo.pubsub.GoogleCloudBuildEventCreator;
+import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
+import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
+import com.netflix.spinnaker.echo.pubsub.google.GoogleCloudBuildArtifactExtractor;
+import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,7 +38,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(GoogleCloudBuildProperties.class)
 @RequiredArgsConstructor
 public class GoogleCloudBuildConfig {
-  /*private final PubsubSubscribers pubsubSubscribers;
+  private final PubsubSubscribers pubsubSubscribers;
   private final PubsubMessageHandler.Factory pubsubMessageHandlerFactory;
   private final GoogleCloudBuildEventCreator googleCloudBuildEventCreator;
   @Valid private final GoogleCloudBuildProperties googleCloudBuildProperties;
@@ -42,38 +50,40 @@ public class GoogleCloudBuildConfig {
     log.info("Creating Google Cloud Build Pubsub Subscribers");
     List<PubsubSubscriber> newSubscribers = new ArrayList<>();
 
-    googleCloudBuildProperties
-        .getAccounts()
-        .forEach(
-            (GoogleCloudBuildProperties.Account account) -> {
-              GooglePubsubProperties.GooglePubsubSubscription subscription =
-                  GooglePubsubProperties.GooglePubsubSubscription.builder()
-                      .name(account.getName())
-                      .project(account.getProject())
-                      .subscriptionName(account.getSubscriptionName())
-                      .jsonPath(account.getJsonKey())
-                      .messageFormat(GooglePubsubProperties.MessageFormat.GCB)
-                      .build();
-              log.info(
-                  "Bootstrapping Google Cloud Build Pubsub Subscriber listening to subscription: {} in project: {}",
-                  account.getSubscriptionName(),
-                  account.getProject());
+    /*    googleCloudBuildProperties
+    .getAccounts()
+    .forEach(
+        (GoogleCloudBuildProperties.Account account) -> {
+          GooglePubsubProperties.GooglePubsubSubscription subscription =
+              GooglePubsubProperties.GooglePubsubSubscription.builder()
+                  .name(account.getName())
+                  .project(account.getProject())
+                  .subscriptionName(account.getSubscriptionName())
+                  .jsonPath(account.getJsonKey())
+                  .messageFormat(GooglePubsubProperties.MessageFormat.GCB)
+                  .build();
+          log.info(
+              "Bootstrapping Google Cloud Build Pubsub Subscriber listening to subscription: {} in project: {}",
+              account.getSubscriptionName(),
+              account.getProject());
 
-              MessageArtifactTranslator messageArtifactTranslator =
-                  messageArtifactTranslatorFactory.create(
-                      googleCloudBuildArtifactExtractorFactory.create(account.getName()));
-              PubsubEventCreator pubsubEventCreator =
-                  new PubsubEventCreator(Optional.of(messageArtifactTranslator));
+          MessageArtifactTranslator messageArtifactTranslator =
+              messageArtifactTranslatorFactory.create(
+                  googleCloudBuildArtifactExtractorFactory.create(account.getName()));
+          PubsubEventCreator pubsubEventCreator =
+              new PubsubEventCreator(Optional.of(messageArtifactTranslator));
 
-              PubsubMessageHandler pubsubMessageHandler =
-                  pubsubMessageHandlerFactory.create(
-                      Arrays.asList(pubsubEventCreator, googleCloudBuildEventCreator));
+          PubsubMessageHandler pubsubMessageHandler =
+              pubsubMessageHandlerFactory.create(
+                  Arrays.asList(pubsubEventCreator, googleCloudBuildEventCreator));
 
-              GooglePubsubSubscriber subscriber =
-                  GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
+         */
+    /* GooglePubsubSubscriber subscriber =
+        GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
 
-              newSubscribers.add(subscriber);
-            });
+    newSubscribers.add(subscriber);*/
+    /*
+    });*/
     pubsubSubscribers.putAll(newSubscribers);
-  }*/
+  }
 }

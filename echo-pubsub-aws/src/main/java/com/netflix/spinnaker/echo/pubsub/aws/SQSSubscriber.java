@@ -60,8 +60,8 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
 
   private final Registry registry;
 
-  //  private final ARN queueARN;
-  //  private final ARN topicARN;
+  //    private final ARN queueARN;
+  //    private final ARN topicARN;
 
   private String queueId = null;
 
@@ -83,8 +83,8 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
     this.isEnabled = isEnabled;
     this.registry = registry;
 
-    //    this.queueARN = new ARN(subscription.getQueueARN());
-    //    this.topicARN = new ARN(subscription.getTopicARN());
+    //        this.queueARN = new ARN(subscription.getQueueARN());
+    //        this.topicARN = new ARN(subscription.getTopicARN());
   }
 
   //  public String getWorkerName() {
