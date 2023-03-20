@@ -54,7 +54,7 @@ dependencies {
     implementation("org.quartz-scheduler:quartz") {
       exclude group: 'com.zaxxer', module: 'HikariCP-java7'
     }
-    implementation "javax.validation:validation-api:2.0.1.Final"
+
     runtimeOnly "io.spinnaker.kork:kork-runtime"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
