@@ -16,20 +16,8 @@
 
 package com.netflix.spinnaker.echo.config;
 
-import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
-import com.netflix.spinnaker.echo.pubsub.GoogleCloudBuildEventCreator;
-import com.netflix.spinnaker.echo.pubsub.PubsubEventCreator;
-import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
-import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
-import com.netflix.spinnaker.echo.pubsub.google.GoogleCloudBuildArtifactExtractor;
-import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubSubscriber;
-import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.PostConstruct;
-import javax.validation.Valid;
+/*import javax.annotation.PostConstruct;
+import javax.validation.Valid;*/
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(GoogleCloudBuildProperties.class)
 @RequiredArgsConstructor
 public class GoogleCloudBuildConfig {
-  private final PubsubSubscribers pubsubSubscribers;
+  /*private final PubsubSubscribers pubsubSubscribers;
   private final PubsubMessageHandler.Factory pubsubMessageHandlerFactory;
   private final GoogleCloudBuildEventCreator googleCloudBuildEventCreator;
   @Valid private final GoogleCloudBuildProperties googleCloudBuildProperties;
@@ -87,5 +75,5 @@ public class GoogleCloudBuildConfig {
               newSubscribers.add(subscriber);
             });
     pubsubSubscribers.putAll(newSubscribers);
-  }
+  }*/
 }

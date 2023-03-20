@@ -16,20 +16,10 @@
 
 package com.netflix.spinnaker.echo.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.Valid;
+/*import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import javax.validation.constraints.NotEmpty;*/
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -38,7 +28,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class GooglePubsubProperties {
 
-  @Valid private List<GooglePubsubSubscription> subscriptions = new ArrayList<>();
+  /* @Valid private List<GooglePubsubSubscription> subscriptions = new ArrayList<>();
 
   @Valid private List<GooglePubsubPublisherConfig> publishers = new ArrayList<>();
 
@@ -123,5 +113,5 @@ public class GooglePubsubProperties {
     }
 
     MessageFormat() {}
-  }
+  }*/
 }

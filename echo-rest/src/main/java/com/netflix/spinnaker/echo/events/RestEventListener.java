@@ -113,13 +113,13 @@ class RestEventListener implements EventListener {
                     && event.getDetails() != null
                     && event.getDetails().getSource() != null
                     && event.getDetails().getType() != null) {
-                  log.error(
-                      "Could not send event source={}, type={} to {}.\n Event details: {}",
-                      event.getDetails().getSource(),
-                      event.getDetails().getType(),
-                      service.getConfig().getUrl(),
-                      event,
-                      e);
+                  /* log.error(
+                  "Could not send event source={}, type={} to {}.\n Event details: {}",
+                  event.getDetails().getSource(),
+                  event.getDetails().getType(),
+                  service.getConfig().getUrl(),
+                  event,
+                  e);*/
                 } else {
                   log.error("Could not send event.", e);
                 }

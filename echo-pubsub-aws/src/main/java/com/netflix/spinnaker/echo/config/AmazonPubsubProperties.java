@@ -17,9 +17,8 @@
 package com.netflix.spinnaker.echo.config;
 
 import java.io.*;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+// import javax.validation.Valid;
+// import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,18 +29,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "pubsub.amazon")
 public class AmazonPubsubProperties {
 
-  @Valid private List<AmazonPubsubSubscription> subscriptions;
+  //  @Valid private List<AmazonPubsubSubscription> subscriptions;
 
   @Data
   public static class AmazonPubsubSubscription {
 
     private static final Logger log = LoggerFactory.getLogger(AmazonPubsubSubscription.class);
 
-    @NotEmpty private String name;
+    //    @NotEmpty private String name;
 
-    @NotEmpty private String topicARN;
+    //    @NotEmpty private String topicARN;
 
-    @NotEmpty private String queueARN;
+    //    @NotEmpty private String queueARN;
 
     private String templatePath;
 
@@ -71,9 +70,9 @@ public class AmazonPubsubProperties {
         MessageFormat messageFormat,
         String alternateIdInMessageAttributes,
         Integer dedupeRetentionSeconds) {
-      this.name = name;
+      /* this.name = name;
       this.topicARN = topicARN;
-      this.queueARN = queueARN;
+      this.queueARN = queueARN;*/
       this.templatePath = templatePath;
       this.messageFormat = messageFormat;
       this.alternateIdInMessageAttributes = alternateIdInMessageAttributes;
@@ -98,10 +97,10 @@ public class AmazonPubsubProperties {
 
     public InputStream readTemplatePath() {
       messageFormat = determineMessageFormat();
-      log.info(
-          "Using message format: {} to process artifacts for subscription: {}",
-          messageFormat,
-          name);
+      /* log.info(
+      "Using message format: {} to process artifacts for subscription: {}",
+      messageFormat,
+      name);*/
 
       try {
         if (messageFormat == MessageFormat.CUSTOM) {
@@ -115,7 +114,7 @@ public class AmazonPubsubProperties {
           return getClass().getResourceAsStream(messageFormat.jarPath);
         }
       } catch (Exception e) {
-        throw new RuntimeException("Failed to read template in subscription " + name, e);
+        // throw new RuntimeException("Failed to read template in subscription " + name, e);
       }
       return null;
     }

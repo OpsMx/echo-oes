@@ -28,8 +28,8 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
 
-import javax.mail.internet.AddressException
-import javax.mail.internet.MimeMessage
+/*import javax.mail.internet.AddressException
+import javax.mail.internet.MimeMessage*/
 
 /**
  * Mail Sending Service
@@ -57,17 +57,17 @@ class EmailNotificationService implements NotificationService {
     def subject = notificationTemplateEngine.build(notification, NotificationTemplateEngine.Type.SUBJECT)
     def body = notificationTemplateEngine.build(notification, NotificationTemplateEngine.Type.BODY)
 
-    try {
+    /*try {
       send(notification.to?.toArray(new String[0]), notification.cc?.toArray(new String[0]), subject, body)
-    } catch (AddressException e) {
+    } catch(AddressException e) {
       throw new InvalidRequestException(e.message)
-    }
+    }*/
 
     new EchoResponse.Void()
   }
 
   void send(String[] to, String[] cc, String subject, String text) {
-    MimeMessage message = javaMailSender.createMimeMessage()
+  //  MimeMessage message = javaMailSender.createMimeMessage()
     MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8")
 
     def splitAddresses = { String addresses ->

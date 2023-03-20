@@ -16,20 +16,12 @@
 
 package com.netflix.spinnaker.echo.config;
 
-import static retrofit.Endpoints.newFixedEndpoint;
-
-import com.jakewharton.retrofit.Ok3Client;
-import com.netflix.spinnaker.config.DefaultServiceEndpoint;
 import com.netflix.spinnaker.config.okhttp3.OkHttpClientProvider;
-import com.netflix.spinnaker.echo.rest.RestService;
-import com.netflix.spinnaker.retrofit.Slf4jRetrofitLogger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
-import okhttp3.OkHttpClient;
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +30,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.converter.JacksonConverter;
 
 /** Rest endpoint configuration */
 @Configuration
@@ -97,7 +88,7 @@ public class RestConfig {
       OkHttpClientProvider okHttpClientProvider,
       HeadersFromFile headersFromFile) {
 
-    RestUrls restUrls = new RestUrls();
+    /*  RestUrls restUrls = new RestUrls();
 
     for (RestProperties.RestEndpointConfiguration endpoint : restProperties.getEndpoints()) {
       RestAdapter.Builder restAdapterBuilder =
@@ -144,6 +135,7 @@ public class RestConfig {
       restUrls.getServices().add(service);
     }
 
-    return restUrls;
+    return restUrls;*/
+    return null;
   }
 }

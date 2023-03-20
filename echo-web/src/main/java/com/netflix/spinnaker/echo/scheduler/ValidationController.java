@@ -19,10 +19,9 @@ package com.netflix.spinnaker.echo.scheduler;
 import com.google.common.collect.ImmutableMap;
 import com.netflix.spinnaker.echo.cron.CronExpressionFuzzer;
 import com.netflix.spinnaker.echo.scheduler.actions.pipeline.InvalidCronExpressionException;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
+// import javax.servlet.http.HttpServletResponse;
 import net.redhogs.cronparser.CronExpressionDescriptor;
 import net.redhogs.cronparser.Options;
 import org.quartz.CronExpression;
@@ -64,10 +63,10 @@ public class ValidationController {
     }
   }
 
-  @SuppressWarnings("unused")
+  /* @SuppressWarnings("unused")
   @ExceptionHandler(InvalidCronExpressionException.class)
   void handleInvalidCronExpression(HttpServletResponse response, InvalidCronExpressionException e)
       throws IOException {
     response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-  }
+  }*/
 }
