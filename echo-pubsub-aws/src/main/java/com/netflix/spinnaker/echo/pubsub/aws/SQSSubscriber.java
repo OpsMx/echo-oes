@@ -20,6 +20,8 @@ import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.QueueDoesNotExistException;
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.services.sqs.model.ReceiveMessageResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.spectator.api.Id;
 import com.netflix.spectator.api.Registry;
@@ -29,6 +31,8 @@ import com.netflix.spinnaker.echo.model.pubsub.PubsubSystem;
 import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
 import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
 import com.netflix.spinnaker.echo.pubsub.utils.NodeIdentity;
+import com.netflix.spinnaker.kork.aws.ARN;
+import com.netflix.spinnaker.kork.pubsub.aws.PubSubUtils;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -60,8 +64,8 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
 
   private final Registry registry;
 
-  //    private final ARN queueARN;
-  //    private final ARN topicARN;
+  private final ARN queueARN;
+  private final ARN topicARN;
 
   private String queueId = null;
 
@@ -83,13 +87,13 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
     this.isEnabled = isEnabled;
     this.registry = registry;
 
-    //        this.queueARN = new ARN(subscription.getQueueARN());
-    //        this.topicARN = new ARN(subscription.getTopicARN());
+    this.queueARN = new ARN(subscription.getQueueARN());
+    this.topicARN = new ARN(subscription.getTopicARN());
   }
 
-  //  public String getWorkerName() {
-  //    return queueARN.getArn() + "/" + SQSSubscriber.class.getSimpleName();
-  //  }
+  public String getWorkerName() {
+    return queueARN.getArn() + "/" + SQSSubscriber.class.getSimpleName();
+  }
 
   @Override
   public PubsubSystem getPubsubSystem() {
@@ -98,7 +102,7 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
 
   @Override
   public String getSubscriptionName() {
-    return null; // subscription.getName();
+    return subscription.getName();
   }
 
   @Override
@@ -108,35 +112,35 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
 
   @Override
   public void run() {
-    // log.info("Starting " + getWorkerName());
+    log.info("Starting " + getWorkerName());
     try {
-      // initializeQueue();
+      initializeQueue();
     } catch (Exception e) {
-      // log.error("Error initializing queue {}", queueARN, e);
+      log.error("Error initializing queue {}", queueARN, e);
       throw e;
     }
 
     while (true) {
       try {
-        //  listenForMessages();
+        listenForMessages();
       } catch (QueueDoesNotExistException e) {
-        // log.warn("Queue {} does not exist, recreating", queueARN);
-        // initializeQueue();
+        log.warn("Queue {} does not exist, recreating", queueARN);
+        initializeQueue();
       } catch (Exception e) {
-        /*  log.error("Unexpected error running " + getWorkerName() + ", restarting worker", e);
-        sleepALittle();*/
+        log.error("Unexpected error running " + getWorkerName() + ", restarting worker", e);
+        sleepALittle();
       }
     }
   }
 
-  /*private void initializeQueue() {
+  private void initializeQueue() {
     this.queueId =
         PubSubUtils.ensureQueueExists(
             amazonSQS, queueARN, topicARN, subscription.getSqsMessageRetentionPeriodSeconds());
     PubSubUtils.subscribeToTopic(amazonSNS, topicARN, queueARN);
-  }*/
+  }
 
-  /*  private void listenForMessages() {
+  private void listenForMessages() {
     while (isEnabled.get()) {
       ReceiveMessageResult receiveMessageResult =
           amazonSQS.receiveMessage(
@@ -156,7 +160,7 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
 
     // If isEnabled is false, let's not busy spin
     sleepALittle();
-  }*/
+  }
 
   private void handleMessage(Message message) {
     try {
@@ -254,11 +258,11 @@ public class SQSSubscriber implements Runnable, PubsubSubscriber {
         .withTag("exceptionClass", e.getClass().getSimpleName());
   }
 
-  /*private void sleepALittle() {
+  private void sleepALittle() {
     try {
       Thread.sleep(500);
     } catch (InterruptedException e1) {
       log.error("Thread {} interrupted while sleeping", getWorkerName(), e1);
     }
-  }*/
+  }
 }

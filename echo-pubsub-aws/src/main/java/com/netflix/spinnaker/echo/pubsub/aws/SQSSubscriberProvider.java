@@ -40,7 +40,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.function.Supplier;
-import javax.annotation.PostConstruct;
+
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +142,7 @@ public class SQSSubscriberProvider {
                 subscribers.add(worker);
                 log.debug("Created worker for subscription: {}", subscription.getName());
               } catch (RejectedExecutionException e) {
-                // log.error("Could not start " + worker.getWorkerName(), e);
+                log.error("Could not start " + worker.getName(), e);
               }
             });
     pubsubSubscribers.putAll(subscribers);

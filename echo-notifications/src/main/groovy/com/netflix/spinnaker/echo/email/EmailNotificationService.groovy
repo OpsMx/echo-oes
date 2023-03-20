@@ -21,6 +21,7 @@ import com.netflix.spinnaker.echo.notification.NotificationService
 import com.netflix.spinnaker.echo.api.Notification
 import com.netflix.spinnaker.echo.notification.NotificationTemplateEngine
 import com.netflix.spinnaker.kork.web.exceptions.InvalidRequestException
+import jakarta.mail.internet.AddressException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -28,8 +29,7 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
 
-/*import javax.mail.internet.AddressException
-import javax.mail.internet.MimeMessage*/
+
 
 /**
  * Mail Sending Service
@@ -57,11 +57,11 @@ class EmailNotificationService implements NotificationService {
     def subject = notificationTemplateEngine.build(notification, NotificationTemplateEngine.Type.SUBJECT)
     def body = notificationTemplateEngine.build(notification, NotificationTemplateEngine.Type.BODY)
 
-    /*try {
+    try {
       send(notification.to?.toArray(new String[0]), notification.cc?.toArray(new String[0]), subject, body)
     } catch(AddressException e) {
       throw new InvalidRequestException(e.message)
-    }*/
+    }
 
     new EchoResponse.Void()
   }

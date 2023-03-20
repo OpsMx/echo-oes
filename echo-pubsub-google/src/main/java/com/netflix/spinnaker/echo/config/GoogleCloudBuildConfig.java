@@ -18,14 +18,19 @@ package com.netflix.spinnaker.echo.config;
 
 import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
 import com.netflix.spinnaker.echo.pubsub.GoogleCloudBuildEventCreator;
+import com.netflix.spinnaker.echo.pubsub.PubsubEventCreator;
 import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
 import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
 import com.netflix.spinnaker.echo.pubsub.google.GoogleCloudBuildArtifactExtractor;
+import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubSubscriber;
 import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
-import jakarta.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,7 +46,8 @@ public class GoogleCloudBuildConfig {
   private final PubsubSubscribers pubsubSubscribers;
   private final PubsubMessageHandler.Factory pubsubMessageHandlerFactory;
   private final GoogleCloudBuildEventCreator googleCloudBuildEventCreator;
-  @Valid private final GoogleCloudBuildProperties googleCloudBuildProperties;
+  @Valid
+  private final GoogleCloudBuildProperties googleCloudBuildProperties;
   private final MessageArtifactTranslator.Factory messageArtifactTranslatorFactory;
   private final GoogleCloudBuildArtifactExtractor.Factory googleCloudBuildArtifactExtractorFactory;
 
@@ -50,7 +56,7 @@ public class GoogleCloudBuildConfig {
     log.info("Creating Google Cloud Build Pubsub Subscribers");
     List<PubsubSubscriber> newSubscribers = new ArrayList<>();
 
-    /*    googleCloudBuildProperties
+    googleCloudBuildProperties
     .getAccounts()
     .forEach(
         (GoogleCloudBuildProperties.Account account) -> {
@@ -77,13 +83,11 @@ public class GoogleCloudBuildConfig {
               pubsubMessageHandlerFactory.create(
                   Arrays.asList(pubsubEventCreator, googleCloudBuildEventCreator));
 
-         */
-    /* GooglePubsubSubscriber subscriber =
+              GooglePubsubSubscriber subscriber =
         GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
 
-    newSubscribers.add(subscriber);*/
-    /*
-    });*/
+              newSubscribers.add(subscriber);
+            });
     pubsubSubscribers.putAll(newSubscribers);
   }
 }

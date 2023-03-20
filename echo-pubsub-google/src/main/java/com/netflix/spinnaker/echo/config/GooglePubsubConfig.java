@@ -18,14 +18,22 @@ package com.netflix.spinnaker.echo.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubSubscription;
+import com.netflix.spinnaker.echo.pubsub.PubsubEventCreator;
 import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
 import com.netflix.spinnaker.echo.pubsub.PubsubPublishers;
 import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
+import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubPublisher;
+import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubSubscriber;
+import com.netflix.spinnaker.echo.pubsub.model.EventCreator;
+import com.netflix.spinnaker.echo.pubsub.model.PubsubPublisher;
 import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +58,7 @@ public class GooglePubsubConfig {
   void googlePubsubSubscribers() {
     log.info("Creating Google Pubsub Subscribers");
     List<PubsubSubscriber> newSubscribers = new ArrayList<>();
-    /* googlePubsubProperties
+    googlePubsubProperties
     .getSubscriptions()
     .forEach(
         (GooglePubsubSubscription subscription) -> {
@@ -70,14 +78,14 @@ public class GooglePubsubConfig {
               GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
 
           newSubscribers.add(subscriber);
-        });*/
+            });
     pubsubSubscribers.putAll(newSubscribers);
   }
 
   @PostConstruct
   void googlePubsubPublishers() throws IOException {
     log.info("Creating Google Pubsub Publishers");
-    /* List<PubsubPublisher> newPublishers =
+    List<PubsubPublisher> newPublishers =
         googlePubsubProperties.getPublishers().stream()
             .map(
                 publisherConfig -> {
@@ -91,6 +99,6 @@ public class GooglePubsubConfig {
                 })
             .collect(Collectors.toList());
 
-    pubsubPublishers.putAll(newPublishers);*/
+    pubsubPublishers.putAll(newPublishers);
   }
 }

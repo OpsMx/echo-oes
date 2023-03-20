@@ -19,8 +19,10 @@ package com.netflix.spinnaker.echo.pubsub.google;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.netflix.spinnaker.echo.api.Notification;
 import com.netflix.spinnaker.echo.api.events.Event;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.Content;
 import com.netflix.spinnaker.echo.controller.EchoResponse;
 import com.netflix.spinnaker.echo.controller.EchoResponse.Void;
+import com.netflix.spinnaker.echo.model.pubsub.PubsubSystem;
 import com.netflix.spinnaker.echo.notification.AbstractEventNotificationAgent;
 import com.netflix.spinnaker.echo.notification.NotificationService;
 import com.netflix.spinnaker.echo.pubsub.PubsubPublishers;
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Service;
@@ -46,14 +49,14 @@ public class GooglePubsubNotificationEventListener extends AbstractEventNotifica
   @Override
   public void sendNotifications(
       Map notification, String application, Event event, Map config, String status) {
-    /* publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
+    publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
     .map(p -> (GooglePubsubPublisher) p)
     .filter(p -> p.getContent() == Content.NOTIFICATIONS)
     .filter(
         p ->
             notification.containsKey("publisherName")
                 && notification.get("publisherName").toString().equalsIgnoreCase(p.getName()))
-    .forEach(p -> p.publishEvent(event));*/
+        .forEach(p -> p.publishEvent(event));
   }
 
   /**
@@ -77,10 +80,10 @@ public class GooglePubsubNotificationEventListener extends AbstractEventNotifica
     }
     String publisherName = notification.getTo().iterator().next();
 
-    /*   publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
+    publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
     .map(p -> (GooglePubsubPublisher) p)
     .filter(p -> StringUtils.equalsIgnoreCase(publisherName, p.getName()))
-    .forEach(p -> publishNotification(p, notification));*/
+        .forEach(p -> publishNotification(p, notification));
     return new EchoResponse.Void();
   }
 
@@ -100,6 +103,6 @@ public class GooglePubsubNotificationEventListener extends AbstractEventNotifica
     attributes.put("type", notification.getSource().getExecutionType());
     attributes.values().removeIf(Objects::isNull);
 
-    //    p.publish(notification.getAdditionalContext(), attributes);
+    p.publish(notification.getAdditionalContext(), attributes);
   }
 }
