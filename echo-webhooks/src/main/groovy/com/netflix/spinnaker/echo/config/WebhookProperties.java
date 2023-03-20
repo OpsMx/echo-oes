@@ -16,8 +16,10 @@
 
 package com.netflix.spinnaker.echo.config;
 
-// import javax.validation.Valid;
-// import javax.validation.constraints.NotEmpty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -25,22 +27,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "webhooks.artifacts")
 public class WebhookProperties {
-  //  @Valid private List<WebhookArtifactTranslator> sources = new ArrayList<>();
+  @Valid private List<WebhookArtifactTranslator> sources = new ArrayList<>();
 
   public String getTemplatePathForSource(String source) {
-    /* return sources.stream()
-    .filter(s -> s.getSource().equals(source))
-    .map(WebhookArtifactTranslator::getTemplatePath)
-    .findAny()
-    .orElse(null);*/
-    return null;
+    return sources.stream()
+        .filter(s -> s.getSource().equals(source))
+        .map(WebhookArtifactTranslator::getTemplatePath)
+        .findAny()
+        .orElse(null);
   }
 
   @Data
   @NoArgsConstructor
   public static class WebhookArtifactTranslator {
-    //    @NotEmpty private String source;
+    @NotEmpty private String source;
 
-    //    @NotEmpty private String templatePath;
+    @NotEmpty private String templatePath;
   }
 }

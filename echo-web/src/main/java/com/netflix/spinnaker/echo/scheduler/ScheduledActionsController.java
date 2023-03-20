@@ -16,17 +16,32 @@
 
 package com.netflix.spinnaker.echo.scheduler;
 
-/*import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;*/
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.TriggerKey.triggerKey;
+
+import com.netflix.spinnaker.echo.cron.CronExpressionFuzzer;
+import com.netflix.spinnaker.echo.scheduler.actions.pipeline.PipelineConfigsPollingJob;
+import com.netflix.spinnaker.echo.scheduler.actions.pipeline.TriggerConverter;
+import com.netflix.spinnaker.kork.web.exceptions.NotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
 import org.quartz.*;
+import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ConditionalOnExpression("${scheduler.enabled:false}")
 public class ScheduledActionsController {
-  /* private static final String USER_TRIGGER_GROUP = "user";
+  private static final String USER_TRIGGER_GROUP = "user";
 
   private Scheduler scheduler;
 
@@ -142,5 +157,5 @@ public class ScheduledActionsController {
     description.setForceRebake(trigger.getJobDataMap().getBooleanValue("triggerRebake"));
 
     return description;
-  }*/
+  }
 }

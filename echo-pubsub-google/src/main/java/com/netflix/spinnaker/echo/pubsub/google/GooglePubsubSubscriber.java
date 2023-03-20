@@ -25,12 +25,14 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.google.pubsub.v1.PubsubMessage;
-// import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubSubscription;
+import com.netflix.spinnaker.echo.config.GooglePubsubCredentialsProvider;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubSubscription;
 import com.netflix.spinnaker.echo.model.pubsub.MessageDescription;
 import com.netflix.spinnaker.echo.model.pubsub.PubsubSystem;
 import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
 import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
 import com.netflix.spinnaker.echo.pubsub.utils.NodeIdentity;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -85,27 +87,27 @@ public class GooglePubsubSubscriber implements PubsubSubscriber {
     return String.format("projects/%s/subscriptions/%s", project, name);
   }
 
-  /* public static GooglePubsubSubscriber buildSubscriber(
-        GooglePubsubSubscription subscription, PubsubMessageHandler pubsubMessageHandler) {
-      String subscriptionName = subscription.getSubscriptionName();
-      String project = subscription.getProject();
-      String jsonPath = subscription.getJsonPath();
+  public static GooglePubsubSubscriber buildSubscriber(
+      GooglePubsubSubscription subscription, PubsubMessageHandler pubsubMessageHandler) {
+    String subscriptionName = subscription.getSubscriptionName();
+    String project = subscription.getProject();
+    String jsonPath = subscription.getJsonPath();
 
-      GooglePubsubMessageReceiver messageReceiver =
-          new GooglePubsubMessageReceiver(
-              subscription.getAckDeadlineSeconds(), subscription.getName(), pubsubMessageHandler);
+    GooglePubsubMessageReceiver messageReceiver =
+        new GooglePubsubMessageReceiver(
+            subscription.getAckDeadlineSeconds(), subscription.getName(), pubsubMessageHandler);
 
-      Credentials credentials = null;
-      try {
-        credentials = new GooglePubsubCredentialsProvider(jsonPath).getCredentials();
-      } catch (IOException e) {
-        log.error("Could not create Google Pubsub json credentials: {}", e.getMessage());
-      }
-
-      return new GooglePubsubSubscriber(
-          subscription.getName(), subscriptionName, project, credentials, messageReceiver);
+    Credentials credentials = null;
+    try {
+      credentials = new GooglePubsubCredentialsProvider(jsonPath).getCredentials();
+    } catch (IOException e) {
+      log.error("Could not create Google Pubsub json credentials: {}", e.getMessage());
     }
-  */
+
+    return new GooglePubsubSubscriber(
+        subscription.getName(), subscriptionName, project, credentials, messageReceiver);
+  }
+
   public synchronized void start() {
     this.subscriber =
         Subscriber.newBuilder(

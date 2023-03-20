@@ -15,6 +15,8 @@
  */
 
 dependencies {
+  api("org.apache.groovy:groovy:4.0.9")
+  api("org.springframework.boot:spring-boot-starter-validation")
   implementation project(':echo-core')
   implementation project(':echo-model')
   implementation project(":echo-pipelinetriggers")
@@ -31,12 +33,19 @@ dependencies {
   implementation "commons-codec:commons-codec"
   implementation "org.springframework.boot:spring-boot-starter-mail"
   implementation "org.springframework.boot:spring-boot-starter-freemarker"
-  implementation "org.jsoup:jsoup:1.8.3"
+  implementation "org.jsoup:jsoup:1.15.3"
   implementation "com.atlassian.commonmark:commonmark:0.9.0"
   implementation "net.logstash.logback:logstash-logback-encoder:4.11"
+  implementation 'com.fasterxml.jackson.core:jackson-core:2.12.5'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+
+  implementation group: 'org.apache.groovy', name: 'groovy-json', version: '4.0.9'
+
+  implementation "jakarta.validation:jakarta.validation-api:3.0.2"
   testImplementation("com.icegreen:greenmail:1.5.14") {
     exclude group: "com.sun.mail", module: "javax.mail"
   }
+  implementation "org.apache.groovy:groovy:4.0.9"
   testImplementation "org.apache.httpcomponents:httpclient"
   testImplementation "org.spockframework:spock-spring"
   testImplementation "org.springframework:spring-test"

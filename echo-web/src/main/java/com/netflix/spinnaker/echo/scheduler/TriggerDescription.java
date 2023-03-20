@@ -1,17 +1,17 @@
 package com.netflix.spinnaker.echo.scheduler;
 
-// import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class TriggerDescription {
-  //  @NotBlank private String id;
-  //
-  //  @NotBlank private String application;
-  //
-  //  @NotBlank private String pipelineId;
-  //
-  //  @NotBlank private String cronExpression;
+  @NotBlank private String id;
+
+  @NotBlank private String application;
+
+  @NotBlank private String pipelineId;
+
+  @NotBlank private String cronExpression;
 
   private String timezone;
 

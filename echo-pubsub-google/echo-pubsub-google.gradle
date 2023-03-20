@@ -15,8 +15,8 @@
  */
 
 dependencies {
-  api "com.netflix.spectator:spectator-api:1.5.3"
-
+  api "com.netflix.spectator:spectator-api:1.5.4"
+  api("org.springframework.boot:spring-boot-starter-validation")
   implementation project(':echo-artifacts')
   implementation project(':echo-core')
   implementation project(':echo-model')

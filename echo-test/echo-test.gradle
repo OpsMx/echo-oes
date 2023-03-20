@@ -15,7 +15,7 @@
  */
 
 dependencies {
-  api "com.netflix.spectator:spectator-api:1.5.3"
+  api("com.netflix.spectator:spectator-api:1.5.4")
   api("net.logstash.logback:logstash-logback-encoder:4.11")
   api("com.squareup.retrofit:retrofit:1.9.0")
   api("com.squareup.retrofit:converter-jackson:1.9.0")
@@ -26,6 +26,7 @@ dependencies {
   implementation project(':echo-model')
   implementation project(':echo-pipelinetriggers')
   implementation "io.spinnaker.kork:kork-artifacts"
+  implementation "com.netflix.spectator:spectator-api:1.5.4"
   implementation "com.squareup.retrofit:retrofit:1.9.0"
   implementation "com.squareup.retrofit:converter-jackson:1.9.0"
   implementation "com.squareup.okhttp:okhttp:2.7.5"

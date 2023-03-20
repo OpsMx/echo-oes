@@ -21,11 +21,10 @@ plugins {
 }
 
 allprojects {
-  apply plugin: "io.spinnaker.project"
-  repositories {
-    mavenLocal()
-    mavenCentral()
-    gradlePluginPortal()
+  apply plugin: 'io.spinnaker.project'
+  repositories {mavenCentral()}
+  tasks.withType(Copy).all {
+    duplicatesStrategy 'exclude'
   }
 }
 
@@ -66,6 +65,7 @@ subprojects {
     }
 
     dependencies {
+      api("org.apache.groovy:groovy:4.0.9")
       implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion")
       annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion")
       annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -73,7 +73,9 @@ subprojects {
       compileOnly "org.projectlombok:lombok"
       annotationProcessor "org.projectlombok:lombok"
       testAnnotationProcessor "org.projectlombok:lombok"
-
+      implementation "org.apache.groovy:groovy:4.0.9"
+      annotationProcessor "org.projectlombok:lombok"
+      annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
       implementation "com.github.ben-manes.caffeine:guava"
       implementation "com.netflix.spectator:spectator-api"

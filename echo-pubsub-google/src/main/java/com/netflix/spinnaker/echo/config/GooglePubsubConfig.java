@@ -16,8 +16,25 @@
 
 package com.netflix.spinnaker.echo.config;
 
-/*import javax.annotation.PostConstruct;
-import javax.validation.Valid;*/
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.spinnaker.echo.artifacts.MessageArtifactTranslator;
+import com.netflix.spinnaker.echo.config.GooglePubsubProperties.GooglePubsubSubscription;
+import com.netflix.spinnaker.echo.pubsub.PubsubEventCreator;
+import com.netflix.spinnaker.echo.pubsub.PubsubMessageHandler;
+import com.netflix.spinnaker.echo.pubsub.PubsubPublishers;
+import com.netflix.spinnaker.echo.pubsub.PubsubSubscribers;
+import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubPublisher;
+import com.netflix.spinnaker.echo.pubsub.google.GooglePubsubSubscriber;
+import com.netflix.spinnaker.echo.pubsub.model.EventCreator;
+import com.netflix.spinnaker.echo.pubsub.model.PubsubPublisher;
+import com.netflix.spinnaker.echo.pubsub.model.PubsubSubscriber;
+import jakarta.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -30,7 +47,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(GooglePubsubProperties.class)
 @RequiredArgsConstructor
 public class GooglePubsubConfig {
-  /*private final PubsubSubscribers pubsubSubscribers;
+  private final PubsubSubscribers pubsubSubscribers;
   private final PubsubPublishers pubsubPublishers;
   private final PubsubMessageHandler.Factory pubsubMessageHandlerFactory;
   @Valid private final GooglePubsubProperties googlePubsubProperties;
@@ -83,5 +100,5 @@ public class GooglePubsubConfig {
             .collect(Collectors.toList());
 
     pubsubPublishers.putAll(newPublishers);
-  }*/
+  }
 }

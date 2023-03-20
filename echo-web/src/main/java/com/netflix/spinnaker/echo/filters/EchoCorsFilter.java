@@ -16,19 +16,14 @@
 
 package com.netflix.spinnaker.echo.filters;
 
-/*import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;*/
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.springframework.stereotype.Component;
 
 /** A filter to enable CORS access */
 @Component
-public class EchoCorsFilter {
-  /*implements Filter {
+public class EchoCorsFilter implements Filter {
 
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
       throws IOException, ServletException {
@@ -44,5 +39,5 @@ public class EchoCorsFilter {
   public void init(FilterConfig filterConfig) {}
 
   @SuppressWarnings("EmptyMethod")
-  public void destroy() {}*/
+  public void destroy() {}
 }

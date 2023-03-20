@@ -20,7 +20,7 @@ package com.netflix.spinnaker.echo.slack
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.netflix.spinnaker.echo.config.SlackLegacyProperties
-//import groovy.json.JsonBuilder
+import groovy.json.JsonBuilder
 import groovy.transform.Canonical
 import groovy.util.logging.Slf4j
 import retrofit.client.Response
@@ -47,9 +47,9 @@ class SlackService {
   }
 
 
-  /*def static toJson(message) {
+  def static toJson(message) {
     "[" + new JsonBuilder(message).toPrettyString() + "]"
-  }*/
+  }
 
   // Partial view into the response from Slack, but enough for our needs
   @JsonIgnoreProperties(ignoreUnknown = true)

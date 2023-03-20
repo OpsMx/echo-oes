@@ -37,9 +37,9 @@ abstract class EchoFixture
 inline fun <PF, reified F> TestContextBuilder<PF, F>.echoFixture(
   crossinline factory: (Unit).(testDescriptor: TestDescriptor) -> F
 ) {
-  /*fixture { testDescriptor ->
+  fixture { testDescriptor ->
     factory(testDescriptor).also {
       TestContextManager(F::class.java).prepareTestInstance(it)
     }
-  }*/
+  }
 }
