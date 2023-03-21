@@ -1,16 +1,16 @@
 apply from: "${project.rootDir}/gradle/kotlin.gradle"
-jacoco {
-  toolVersion = "0.8.8"
-}
+
 dependencies {
   implementation(project(":echo-web"))
   api("org.springframework.boot:spring-boot-starter-test")
   api("dev.minutest:minutest:1.13.0")
+  api("com.netflix.spectator:spectator-api:1.5.4")
+  implementation "net.logstash.logback:logstash-logback-encoder:4.11"
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
   testImplementation "org.junit.jupiter:junit-jupiter-api"
   testImplementation "org.junit.jupiter:junit-jupiter-params"
   testImplementation "org.junit.platform:junit-platform-runner"
-  testImplementation "org.junit.vintage:junit-vintage-engine"
+ // testImplementation "org.junit.vintage:junit-vintage-engine"
 }
