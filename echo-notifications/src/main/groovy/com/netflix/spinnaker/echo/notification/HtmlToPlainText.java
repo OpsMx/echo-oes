@@ -29,7 +29,7 @@ public class HtmlToPlainText {
   public String getPlainText(Element element) {
     FormattingVisitor formatter = new FormattingVisitor();
     NodeTraversor traversor = new NodeTraversor();
-    traversor.traverse(formatter,element);
+    traversor.traverse(formatter, element);
     return formatter.toString();
   }
 
