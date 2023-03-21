@@ -27,11 +27,10 @@ import org.jsoup.select.NodeVisitor;
 // https://github.com/jhy/jsoup/blob/jsoup-1.8.2/src/main/java/org/jsoup/examples/HtmlToPlainText.java
 public class HtmlToPlainText {
   public String getPlainText(Element element) {
-   /* FormattingVisitor formatter = new FormattingVisitor();
-    NodeTraversor traversor = new NodeTraversor(formatter);
-    traversor.traverse(element);
-    return formatter.toString();*/
-    return null;
+    FormattingVisitor formatter = new FormattingVisitor();
+    NodeTraversor traversor = new NodeTraversor();
+    traversor.traverse(formatter,element);
+    return formatter.toString();
   }
 
   // the formatting rules, implemented in a breadth-first DOM traverse

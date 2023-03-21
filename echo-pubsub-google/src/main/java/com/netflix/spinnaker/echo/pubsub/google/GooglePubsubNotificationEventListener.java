@@ -50,12 +50,12 @@ public class GooglePubsubNotificationEventListener extends AbstractEventNotifica
   public void sendNotifications(
       Map notification, String application, Event event, Map config, String status) {
     publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
-    .map(p -> (GooglePubsubPublisher) p)
-    .filter(p -> p.getContent() == Content.NOTIFICATIONS)
-    .filter(
-        p ->
-            notification.containsKey("publisherName")
-                && notification.get("publisherName").toString().equalsIgnoreCase(p.getName()))
+        .map(p -> (GooglePubsubPublisher) p)
+        .filter(p -> p.getContent() == Content.NOTIFICATIONS)
+        .filter(
+            p ->
+                notification.containsKey("publisherName")
+                    && notification.get("publisherName").toString().equalsIgnoreCase(p.getName()))
         .forEach(p -> p.publishEvent(event));
   }
 
@@ -81,8 +81,8 @@ public class GooglePubsubNotificationEventListener extends AbstractEventNotifica
     String publisherName = notification.getTo().iterator().next();
 
     publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
-    .map(p -> (GooglePubsubPublisher) p)
-    .filter(p -> StringUtils.equalsIgnoreCase(publisherName, p.getName()))
+        .map(p -> (GooglePubsubPublisher) p)
+        .filter(p -> StringUtils.equalsIgnoreCase(publisherName, p.getName()))
         .forEach(p -> publishNotification(p, notification));
     return new EchoResponse.Void();
   }

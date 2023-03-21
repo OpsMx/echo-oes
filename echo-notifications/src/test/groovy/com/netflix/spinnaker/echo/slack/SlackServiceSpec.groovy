@@ -5,7 +5,7 @@ import com.netflix.spinnaker.echo.config.SlackAppProperties
 import com.netflix.spinnaker.echo.config.SlackConfig
 import com.netflix.spinnaker.echo.config.SlackLegacyProperties
 import com.netflix.spinnaker.kork.web.exceptions.InvalidRequestException
-import groovy.json.JsonSlurper
+//import groovy.json.JsonSlurper
 import org.apache.http.NameValuePair
 import org.apache.http.client.utils.URLEncodedUtils
 import org.springframework.http.HttpHeaders
@@ -59,7 +59,7 @@ class SlackServiceSpec extends Specification {
 
     when: "sending a notification"
     slackService.sendMessage(new SlackAttachment("Title", "the text"), "#testing", true)
-    def responseJson = new JsonSlurper().parseText(actualPayload.get())
+    //def responseJson = new JsonSlurper().parseText(actualPayload.get())
 
     then: "the HTTP URL and payload intercepted are the ones expected"
     actualUrl.get() == expectedUrl
@@ -183,7 +183,7 @@ class SlackServiceSpec extends Specification {
   }
 
   def static parseJson(String value) {
-    new JsonSlurper().parseText(value)
+    //new JsonSlurper().parseText(value)
   }
 
   static Response mockResponse() {

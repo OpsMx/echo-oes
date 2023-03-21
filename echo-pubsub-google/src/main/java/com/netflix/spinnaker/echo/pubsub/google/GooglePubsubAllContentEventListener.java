@@ -39,8 +39,8 @@ public class GooglePubsubAllContentEventListener implements EventListener {
   @Override
   public void processEvent(Event event) {
     publishers.publishersMatchingType(PubsubSystem.GOOGLE).stream()
-    .map(p -> (GooglePubsubPublisher) p)
-    .filter(p -> p.getContent() == GooglePubsubProperties.Content.ALL)
-    .forEach(p -> p.publishEvent(event));
+        .map(p -> (GooglePubsubPublisher) p)
+        .filter(p -> p.getContent() == GooglePubsubProperties.Content.ALL)
+        .forEach(p -> p.publishEvent(event));
   }
 }

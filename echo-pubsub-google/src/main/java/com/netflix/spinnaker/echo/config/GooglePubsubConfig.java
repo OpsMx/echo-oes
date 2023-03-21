@@ -59,25 +59,25 @@ public class GooglePubsubConfig {
     log.info("Creating Google Pubsub Subscribers");
     List<PubsubSubscriber> newSubscribers = new ArrayList<>();
     googlePubsubProperties
-    .getSubscriptions()
-    .forEach(
-        (GooglePubsubSubscription subscription) -> {
-          log.info(
-              "Bootstrapping Google Pubsub Subscriber listening to subscription: {} in project: {}",
-              subscription.getSubscriptionName(),
-              subscription.getProject());
+        .getSubscriptions()
+        .forEach(
+            (GooglePubsubSubscription subscription) -> {
+              log.info(
+                  "Bootstrapping Google Pubsub Subscriber listening to subscription: {} in project: {}",
+                  subscription.getSubscriptionName(),
+                  subscription.getProject());
 
-          Optional<MessageArtifactTranslator> messageArtifactTranslator =
-              Optional.ofNullable(subscription.readTemplatePath())
-                  .map(messageArtifactTranslatorFactory::createJinja);
-          EventCreator eventCreator = new PubsubEventCreator(messageArtifactTranslator);
-          PubsubMessageHandler pubsubMessageHandler =
-              pubsubMessageHandlerFactory.create(eventCreator);
+              Optional<MessageArtifactTranslator> messageArtifactTranslator =
+                  Optional.ofNullable(subscription.readTemplatePath())
+                      .map(messageArtifactTranslatorFactory::createJinja);
+              EventCreator eventCreator = new PubsubEventCreator(messageArtifactTranslator);
+              PubsubMessageHandler pubsubMessageHandler =
+                  pubsubMessageHandlerFactory.create(eventCreator);
 
-          GooglePubsubSubscriber subscriber =
-              GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
+              GooglePubsubSubscriber subscriber =
+                  GooglePubsubSubscriber.buildSubscriber(subscription, pubsubMessageHandler);
 
-          newSubscribers.add(subscriber);
+              newSubscribers.add(subscriber);
             });
     pubsubSubscribers.putAll(newSubscribers);
   }

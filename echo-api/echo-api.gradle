@@ -15,9 +15,9 @@ dependencies {
 
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")
-
+  api("cglib:cglib-nodep:3.3.0")
   testImplementation("io.strikt:strikt-core")
-  testImplementation("dev.minutest:minutest")
-  testImplementation("io.mockk:mockk")
+  testImplementation("dev.minutest:minutest:1.13.0")
+  testImplementation("io.mockk:mockk:1.10.5")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
