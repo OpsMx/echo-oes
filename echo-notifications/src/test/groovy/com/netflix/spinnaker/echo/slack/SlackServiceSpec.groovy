@@ -183,7 +183,7 @@ class SlackServiceSpec extends Specification {
   }
 
   def static parseJson(String value) {
-    //new JsonSlurper().parseText(value)
+    new JsonSlurper().parseText(value)
   }
 
   static Response mockResponse() {
