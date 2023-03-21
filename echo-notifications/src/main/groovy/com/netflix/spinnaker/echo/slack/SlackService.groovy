@@ -47,9 +47,9 @@ class SlackService {
   }
 
 
-  /*def static toJson(message) {
+  def static toJson(message) {
     "[" + new JsonBuilder(message).toPrettyString() + "]"
-  }*/
+  }
 
   // Partial view into the response from Slack, but enough for our needs
   @JsonIgnoreProperties(ignoreUnknown = true)
