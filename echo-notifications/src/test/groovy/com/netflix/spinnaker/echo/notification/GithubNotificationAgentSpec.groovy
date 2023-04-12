@@ -47,12 +47,12 @@ class GithubNotificationAgentSpec extends Specification {
   def "sets correct status check for #status status in pipeline events"() {
     given:
     def actualMessage = new BlockingVariable<GithubStatus>()
-   /* github.updateCheck(*_) >> { token, repo, sha, status ->
+    github.updateCheck(*_) >> { token, repo, sha, status ->
       actualMessage.set(status)
     }
     github.getCommit(*_) >> { token, repo, sha ->
       new Response("url", 200, "nothing", [], new TypedByteArray("application/json", "message".bytes))
-    }*/
+    }
 
     when:
     agent.sendNotifications(null, application, event, [type: type], status)
@@ -96,12 +96,12 @@ class GithubNotificationAgentSpec extends Specification {
   def "sets correct status check for #status status in stage events"() {
     given:
     def actualMessage = new BlockingVariable<GithubStatus>()
-   /* github.updateCheck(*_) >> { token, repo, sha, status ->
+    github.updateCheck(*_) >> { token, repo, sha, status ->
       actualMessage.set(status)
     }
     github.getCommit(*_) >> { token, repo, sha ->
       new Response("url", 200, "nothing", [], new TypedByteArray("application/json", "message".bytes))
-    }*/
+    }
 
     when:
     agent.sendNotifications(null, application, event, [type: type], status)
@@ -155,9 +155,9 @@ class GithubNotificationAgentSpec extends Specification {
     GithubCommit commit = new GithubCommit(new GithubCommitDetail(commitMessage))
     ObjectMapper mapper = EchoObjectMapper.getInstance()
     String response = mapper.writeValueAsString(commit)
-    /*github.getCommit(*_) >> { token, repo, sha ->
+    github.getCommit(*_) >> { token, repo, sha ->
       new Response("url", 200, "nothing", [], new TypedByteArray("application/json", response.bytes))
-    }*/
+    }
 
     when:
     agent.sendNotifications(null, application, event, [type: type], status)
