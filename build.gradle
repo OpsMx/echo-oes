@@ -40,7 +40,7 @@ subprojects {
   if (name != "echo-bom") {
     apply plugin: "java-library"
     apply plugin: "groovy"
-    //apply plugin: 'jacoco'
+    apply plugin: 'jacoco'
     apply plugin: 'com.adarshr.test-logger'
 
     test {
@@ -60,9 +60,9 @@ subprojects {
   }
 
   if (name != "echo-bom" && name != "echo-api") {
-    /*jacoco {
+    jacoco {
       toolVersion = '0.8.3'
-    }*/
+    }
 
     dependencies {
       api("org.apache.groovy:groovy:4.0.9")
