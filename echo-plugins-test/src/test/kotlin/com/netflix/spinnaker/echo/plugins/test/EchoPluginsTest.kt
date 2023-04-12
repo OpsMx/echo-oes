@@ -15,8 +15,6 @@
  */
 
 package com.netflix.spinnaker.echo.plugins.test
-class EchoPluginsTest {}
-/*
 
 import com.netflix.spinnaker.echo.api.events.EventListener
 import com.netflix.spinnaker.echo.api.events.NotificationAgent
@@ -56,4 +54,3 @@ class EchoPluginsTest : PluginsTck<EchoPluginsFixture>() {
     }
   }
 }
-*/
