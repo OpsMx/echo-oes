@@ -25,9 +25,7 @@ import javax.annotation.Nullable;
  * MonitoredPollerHealth}.
  */
 public interface MonitoredPoller {
-  /**
-   * @return `true` if polling is currently running, `false` otherwise.
-   */
+  /** @return `true` if polling is currently running, `false` otherwise. */
   boolean isRunning();
 
   /**
@@ -38,14 +36,10 @@ public interface MonitoredPoller {
     return getLastPollTimestamp() != null;
   }
 
-  /**
-   * @return the time at which the last successful poll operation was run.
-   */
+  /** @return the time at which the last successful poll operation was run. */
   @Nullable
   Instant getLastPollTimestamp();
 
-  /**
-   * @return the interval between poll operations in seconds.
-   */
+  /** @return the interval between poll operations in seconds. */
   int getPollingIntervalSeconds();
 }
