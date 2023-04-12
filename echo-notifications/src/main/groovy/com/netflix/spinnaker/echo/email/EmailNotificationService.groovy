@@ -57,7 +57,7 @@ class EmailNotificationService implements NotificationService {
 
     try {
       send(notification.to?.toArray(new String[0]), notification.cc?.toArray(new String[0]), subject, body)
-    } catch(AddressException e) {
+    } catch (AddressException e) {
       throw new InvalidRequestException(e.message)
     }
 

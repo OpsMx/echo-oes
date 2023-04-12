@@ -20,7 +20,6 @@ package com.netflix.spinnaker.echo.slack
 import groovy.json.JsonBuilder
 import groovy.transform.Canonical
 
-
 @Canonical
 class CompactSlackMessage {
 
