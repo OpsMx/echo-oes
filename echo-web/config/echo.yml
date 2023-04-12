@@ -57,9 +57,7 @@ resilience4j.circuitbreaker:
 # This profile is used in sharded deployments for an Echo that handles only
 # scheduled tasks.
 spring:
-  config:
-    activate:
-      on-profile: local
+  profiles: scheduler
 
 scheduler:
   enabled: true
@@ -67,11 +65,8 @@ scheduler:
 ---
 # This profile is used in sharded deployments for an Echo that handles all
 # operations other than scheduled tasks.
-
 spring:
-  config:
-    activate:
-      on-profile: local
+  profiles: worker
 
 scheduler:
   enabled: false
