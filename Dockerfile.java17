@@ -1,16 +1,11 @@
-FROM openjdk:17.0.2-jdk
-RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
-    && microdnf update \
-    && microdnf clean all
-
-LABEL maintainer="sig-platform@spinnaker.io"
-RUN  microdnf install --setopt=tsflags=nodocs openssh-clients && \
-  groupadd -g 10111 spinnaker && \
-  useradd -g spinnaker -u 10111 spinnaker
+FROM quay.io/opsmxpublic/ubifips:8.7
+MAINTAINER sig-platform@spinnaker.io
 COPY echo-web/build/install/echo /opt/echo
-RUN mkdir -p /opt/echo/plugins && chown -R spinnaker /opt/echo/plugins
+RUN yum -y install java-17-openjdk-devel wget vim curl net-tools nettle
+RUN yum -y update
+RUN adduser spinnaker
+RUN mkdir -p /opt/echo/plugins
+RUN chmod -R 777 /opt/echo/plugins/
+RUN chown -R spinnaker:spinnaker /opt/
 USER spinnaker
 CMD ["/opt/echo/bin/echo"]
-
-
-
