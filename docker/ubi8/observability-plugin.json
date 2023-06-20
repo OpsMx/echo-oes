@@ -7,7 +7,7 @@
         "version": "1.0.0",
         "date": "2021-06-24T16:20:59.469168Z",
         "requires": "orca>=0.0.0,deck>=0.0.0",
-        "sha512sum": "VERIFICATION_SHASUM",
+        "sha512sum": "OBSERVABILITY_SHASUM",
         "state": "",
         "url": "file:///opt/spinnaker/plugins/armory-observability-plugin-v1.0.0-SNAPSHOT.zip"
       }
