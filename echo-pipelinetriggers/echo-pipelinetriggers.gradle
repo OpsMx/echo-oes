@@ -43,6 +43,7 @@ dependencies {
 
   implementation 'com.vdurmont:semver4j'
   implementation "com.jayway.jsonpath:json-path"
+  implementation "org.apache.groovy:groovy-json"
 
   testImplementation project(':echo-test')
   testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -50,5 +51,7 @@ dependencies {
   testImplementation "org.assertj:assertj-core"
 
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-  testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
+}
+test {
+  useJUnitPlatform()
 }

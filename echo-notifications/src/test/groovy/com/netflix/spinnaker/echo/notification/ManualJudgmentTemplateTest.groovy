@@ -166,9 +166,9 @@ class ManualJudgmentTemplateTest extends Specification {
         Stage <SPINNAKER_URL/#/applications/testapp/executions/details/exec-id?refId=stage-id&step=1|stage-name> for *testapp*'s *exe-name* pipeline build #*12345* is awaiting manual judgment.
 
         *Instructions:*
-        This is an example message from spinnaker that's more than 80 characters to make sure that we won't wrap it. Note the extra whitespace at the end here: 
+        This is an example message from spinnaker that's more than 80 characters to make sure that we won't wrap it. Note the extra whitespace at the end here:
 
-         ``` This test was added was because code blocks in Slack would word wrap at 80 characters and inject newlines in codeblocks. Note the extra whitespaces after each original newline. ``` 
+         ``` This test was added was because code blocks in Slack would word wrap at 80 characters and inject newlines in codeblocks. Note the extra whitespaces after each original newline. ```
         '''.stripIndent()
   }
 }
