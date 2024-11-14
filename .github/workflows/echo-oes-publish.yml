@@ -1,0 +1,80 @@
+name: Branch Build echo publish 1.33
+
+on:
+  push:
+    branches:
+    - OES-1.33.x
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Xmx6g -Xms6g
+
+jobs:
+  publish-echo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Build
+        env:
+          NEXUS_VERSION: 1.33.0-SNAPSHOT
+        run: |
+            
+              cat <<EOF>> patch
+              
+              version = "$NEXUS_VERSION"
+              group = 'io.spinnaker.echo'
+              apply plugin: 'maven-publish'
+              publishing{
+                   publications{
+                       maven(MavenPublication){
+                            groupId = 'io.spinnaker.echo'
+                            artifactId = 'NEXUSARTIID'
+                            version = "$NEXUS_VERSION"
+                            from components.java
+                 pom {
+                   name = 'NEXUSARTIID'
+                   description = 'A description of echo library'
+                   }
+                 }
+              }
+              repositories {
+                 maven{
+                 name = 'nexus'
+                 url "${{ secrets.NEXUS_URL }}"
+                  credentials {
+                    username = "${{ secrets.NEXUS_USERNAME }}"
+                    password = "${{ secrets.NEXUS_PASSWORD }}"
+                         }
+                     }
+                }
+               }  
+                     tasks.withType(GenerateModuleMetadata).configureEach {
+                                         suppressedValidationErrors.add('enforced-platform')
+                                       }
+              EOF
+             
+              ls -d */  | grep "echo\|keiko" | sed 's/\///g' > ds.txt
+              
+              for i in $(cat ds.txt) 
+              do
+               sed  s/NEXUSARTIID/$i/g patch > patchnew
+               cat patchnew >> $i/$i.gradle
+             
+              done
+             
+              sed -e '/components\.java/ s/^#*/\/\//' -i echo-bom/echo-bom.gradle
+              
+                 sed  -e 's|NEXUS_USERNAME|${{ secrets.NEXUS_USERNAME }}|' -i settings.gradle
+                 sed  -e 's|NEXUS_PASSWORD|${{ secrets.NEXUS_PASSWORD }}|' -i settings.gradle
+                 sed  -e 's|NEXUS_USERNAME|${{ secrets.NEXUS_USERNAME }}|' -i build.gradle
+                 sed  -e 's|NEXUS_PASSWORD|${{ secrets.NEXUS_PASSWORD }}|' -i build.gradle
+                 sed  -e 's|NEXUS_URL|${{ secrets.NEXUS_URL }}|' -i settings.gradle
+                 sed  -e 's|NEXUS_URL|${{ secrets.NEXUS_URL }}|' -i build.gradle
+                 
+                ./gradlew --no-daemon -PenableCrossCompilerPlugin=true  publish -x test
