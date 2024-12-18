@@ -107,7 +107,8 @@ public abstract class BaseTriggerEventHandler<T extends TriggerEvent>
               .distinct()
               .collect(Collectors.toList());
     }
-    log.debug("pipelinesData" + pipelines);
+    pipelines.forEach(pipeline -> log.debug("application: {}, pipeline :{}",pipeline.getApplication(), pipeline.getName()));
+    //log.debug("pipelinesData :" + pipelines);
     log.debug("End of the get matching Pipelines - BaseTriggerEventHandler");
     return pipelines;
   }
