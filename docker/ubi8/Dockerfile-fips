@@ -45,8 +45,6 @@ RUN rpm -Uvh --force expat-2.2.5-15.el8_10.x86_64.rpm
 RUN wget https://fr2.rpmfind.net/linux/almalinux/8.10/BaseOS/x86_64/os/Packages/krb5-libs-1.18.2-29.el8_10.x86_64.rpm
 RUN rpm -Uvh --force  krb5-libs-1.18.2-29.el8_10.x86_64.rpm
 
-RUN yum groupinstall -y "Development Tools" && \
-    yum install -y wget curl git
 
 #RUN yum -y update
 RUN adduser spinnaker
