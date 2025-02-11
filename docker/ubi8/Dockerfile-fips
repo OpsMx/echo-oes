@@ -48,18 +48,6 @@ RUN rpm -Uvh --force  krb5-libs-1.18.2-29.el8_10.x86_64.rpm
 RUN yum groupinstall -y "Development Tools" && \
     yum install -y wget curl git
 
-# Clone the gnutls source from GitLab and build it (or use any alternative link)
-RUN git clone https://gitlab.com/gnutls/gnutls.git /gnutls && \
-    cd /gnutls && \
-    git checkout gnutls_3_6_16 && \
-    ./bootstrap && \
-    ./configure && \
-    make && \
-    make install
-
-# Clean up to reduce image size
-RUN rm -rf /gnutls
-
 #RUN yum -y update
 RUN adduser spinnaker
 RUN mkdir -p ${SERVICE_PLUGIN_PATH}
