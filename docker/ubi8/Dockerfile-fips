@@ -38,8 +38,6 @@ COPY echo-web/build/install/echo /opt/echo
 RUN yum -y install wget  bzip2-libs-1.0.6-28.el8_10 -y
 RUN yum install ca-certificates-2024.2.69_v8.0.303-80.0.el8_10  gmp-6.1.2-11.el8 -y
 
-RUN yum remove -y gnutls
-
 # Install a specific version of gnutls (version 3.6.16-8.el8_9.1)
 RUN yum install -y gnutls-3.6.16-8.el8_9.1 && yum clean all
 
