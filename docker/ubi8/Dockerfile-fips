@@ -1,8 +1,10 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.8 as java-builder
-LABEL maintainer="OpsMx"
 
 ARG JAVA_PACKAGE=java-17-openjdk-jmods
-RUN yum -y update && yum -y install --nodocs ${JAVA_PACKAGE}
+RUN yum -y update && \
+    yum -y install --nodocs ${JAVA_PACKAGE} && \
+    yum clean all && \
+    rm -rf /var/cache/yum
 
 # Build a custom JRE.
 # For now, we will include all modules.  We could try to remove the ones
@@ -20,8 +22,8 @@ ARG OPSMXUSER=1001
 ENV JAVA_HOME=/opsmx-java-runtime \
     PATH=${PATH}:/opsmx-java-runtime/bin \
     WORK_DIR=/opsmx/workdir \
-    CONF_DIR=/opsmx/conf
- ENV SERVICE_PLUGIN_PATH=/opt/echo/plugins
+    CONF_DIR=/opsmx/conf \
+    SERVICE_PLUGIN_PATH=/opt/echo/plugins
 
 # Enabling fips mode
 RUN fips-mode-setup --enable
@@ -34,10 +36,12 @@ COPY echo-web/build/install/echo /opt/echo
 
 ##CVE-2019-12900,CVE-2021-43618 
 RUN yum -y install wget  bzip2-libs-1.0.6-28.el8_10 -y
-RUN yum install ca-certificates-2024.2.69_v8.0.303-80.0.el8_10 -y
-RUN yum install gmp-6.1.2-11.el8 -y
-RUN yum remove gnutls
-RUN yum install gnutls-3.6.16-8.el8_9.1 -y
+RUN yum install ca-certificates-2024.2.69_v8.0.303-80.0.el8_10  gmp-6.1.2-11.el8 -y
+
+RUN yum remove -y gnutls
+
+# Install a specific version of gnutls (version 3.6.16-8.el8_9.1)
+RUN yum install -y gnutls-3.6.16-8.el8_9.1 && yum clean all
 
 RUN wget https://tsn.miraclelinux.com/system/files/AXS8/x86_64/UPDATE/RPMS/expat-2.2.5-15.el8_10.x86_64.rpm
 RUN rpm -Uvh --force expat-2.2.5-15.el8_10.x86_64.rpm
