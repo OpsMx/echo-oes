@@ -35,7 +35,9 @@ COPY echo-web/build/install/echo /opt/echo
 #RUN yum -y install java-17-openjdk-devel wget vim curl net-tools nettle
 
 ##CVE-2019-12900,CVE-2021-43618 
-RUN dnf -y update libxml2 openldap && dnf clean all
+FROM python:3.9-slim
+RUN pip install --upgrade urllib3==1.26.17
+RUN dnf -y update libxml2 openldap sqlite-libs && dnf clean all
 
 # Verify the updated versions
 RUN rpm -q libxml2 openldap
