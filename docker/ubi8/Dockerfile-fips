@@ -45,6 +45,12 @@ RUN rpm -Uvh --force expat-2.2.5-16.el8_10.x86_64.rpm
 RUN wget https://fr2.rpmfind.net/linux/almalinux/8.10/BaseOS/x86_64/os/Packages/krb5-libs-1.18.2-30.el8_10.x86_64.rpm
 RUN rpm -Uvh --force  krb5-libs-1.18.2-30.el8_10.x86_64.rpm 
 
+# Install or upgrade Python (optional version 3.6 or 3.8)
+RUN yum -y install python3 && yum clean all
+
+# Verify Python version
+RUN python3 --version
+
 
 #RUN yum -y update
 RUN adduser spinnaker
