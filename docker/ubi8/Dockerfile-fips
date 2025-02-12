@@ -1,5 +1,4 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.8 as java-builder
-#FROM docker.io/library/python:3.9-slim
 
 ARG JAVA_PACKAGE=java-17-openjdk-jmods
 RUN yum -y update && \
@@ -37,11 +36,10 @@ COPY echo-web/build/install/echo /opt/echo
 
 ##CVE-2019-12900,CVE-2021-43618 
 
-RUN pip install --upgrade urllib3==1.26.17
-RUN dnf -y update libxml2 openldap sqlite-libs && dnf clean all
+RUN dnf -y update python3-urllib3 libxml2 openldap sqlite-libs && dnf clean all
 
 # Verify the updated versions
-RUN rpm -q libxml2 openldap
+RUN rpm -q python3-urllib3 libxml2 openldap sqlite-libs 
 
 # Install or upgrade Python (optional version 3.6 or 3.8)
 RUN yum -y install python3 && yum clean all
