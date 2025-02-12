@@ -36,7 +36,7 @@ COPY echo-web/build/install/echo /opt/echo
 
 ##CVE-2019-12900,CVE-2021-43618 
 
-RUN dnf -y update python3-urllib3 libxml2 openldap sqlite-libs && dnf clean all
+RUN dnf -y update  gnutls python3-idna python3-urllib3 libxml2 openldap sqlite-libs && dnf clean all
 
 # Verify the updated versions
 RUN rpm -q python3-urllib3 libxml2 openldap sqlite-libs 
