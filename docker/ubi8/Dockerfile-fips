@@ -1,5 +1,5 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.8 as java-builder
-FROM docker.io/library/python:3.9-slim
+#FROM docker.io/library/python:3.9-slim
 
 ARG JAVA_PACKAGE=java-17-openjdk-jmods
 RUN yum -y update && \
