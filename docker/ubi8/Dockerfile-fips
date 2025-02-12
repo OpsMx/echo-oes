@@ -35,6 +35,14 @@ COPY echo-web/build/install/echo /opt/echo
 #RUN yum -y install java-17-openjdk-devel wget vim curl net-tools nettle
 
 ##CVE-2019-12900,CVE-2021-43618 
+sudo dnf update libxml2 openldap
+
+# Install or upgrade Python (optional version 3.6 or 3.8)
+RUN yum -y install python3 && yum clean all
+
+# Verify Python version
+RUN python3 --version
+
 RUN yum -y install wget  bzip2-libs-1.0.6-28.el8_10 -y
 RUN yum install ca-certificates-2024.2.69_v8.0.303-80.0.el8_10  gmp-6.1.2-11.el8 -y
 
@@ -45,11 +53,7 @@ RUN rpm -Uvh --force expat-2.2.5-16.el8_10.x86_64.rpm
 RUN wget https://fr2.rpmfind.net/linux/almalinux/8.10/BaseOS/x86_64/os/Packages/krb5-libs-1.18.2-30.el8_10.x86_64.rpm
 RUN rpm -Uvh --force  krb5-libs-1.18.2-30.el8_10.x86_64.rpm 
 
-# Install or upgrade Python (optional version 3.6 or 3.8)
-RUN yum -y install python3 && yum clean all
 
-# Verify Python version
-RUN python3 --version
 
 
 #RUN yum -y update
