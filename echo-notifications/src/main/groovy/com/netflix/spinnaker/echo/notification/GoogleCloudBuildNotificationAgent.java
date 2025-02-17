@@ -22,7 +22,9 @@ import com.netflix.spinnaker.echo.model.pubsub.MessageDescription;
 import com.netflix.spinnaker.echo.services.IgorService;
 import com.netflix.spinnaker.kork.core.RetrySupport;
 import com.netflix.spinnaker.security.AuthenticatedRequest;
+
 import java.nio.charset.StandardCharsets;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -45,23 +47,29 @@ public class GoogleCloudBuildNotificationAgent implements EventListener {
   public void processEvent(Event event) {
     if (event.getDetails() != null && event.getDetails().getType().equals("googleCloudBuild")) {
       MessageDescription messageDescription =
-          (MessageDescription) event.getContent().get("messageDescription");
+        (MessageDescription) event.getContent().get("messageDescription");
+
+      String buildId = messageDescription.getMessageAttributes().get("buildId");
+      String status = messageDescription.getMessageAttributes().get("status");
+
+      if (buildId == null || buildId.isEmpty()) {
+        log.warn("Skipping build status update due to missing buildId. EventId: {}, Subscription: {}",
+          event.getEventId(), messageDescription.getSubscriptionName());
+        return;
+      }
+
       retrySupport.retry(
-          () ->
-              AuthenticatedRequest.allowAnonymous(
-                  () ->
-                      igorService.updateBuildStatus(
-                          messageDescription.getSubscriptionName(),
-                          messageDescription.getMessageAttributes().get("buildId"),
-                          messageDescription.getMessageAttributes().get("status"),
-                          new TypedByteArray(
-                              "application/json",
-                              messageDescription
-                                  .getMessagePayload()
-                                  .getBytes(StandardCharsets.UTF_8)))),
-          5,
-          2000,
-          false);
+        () -> AuthenticatedRequest.allowAnonymous(() ->
+          igorService.updateBuildStatus(
+            messageDescription.getSubscriptionName(),
+            buildId,
+            status,
+            new TypedByteArray(
+              "application/json",
+              messageDescription.getMessagePayload().getBytes(StandardCharsets.UTF_8)))),
+        5,
+        2000,
+        false);
     }
   }
 }
